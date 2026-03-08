@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff4d6d">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Annushka ❤️</title>
+
+<style>
+
+#lockscreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+z-index:10000;
+transition:opacity 0.8s ease;
+}
+
+#lockContent h1{
+color:white;
+font-size:32px;
+margin-bottom:10px;
+}
+
+#lockContent p{
+color:white;
+font-size:18px;
+opacity:0.9;
+}
+
+.fadeOut{
+opacity:0;
+pointer-events:none;
+}
+
+#historyButton{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff4d6d;
+color:white;
+border:none;
+padding:12px 18px;
+border-radius:30px;
+font-size:14px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+#historyPanel{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:70%;
+background:white;
+color:black;
+overflow-y:auto;
+padding:20px;
+display:none;
+box-shadow:0 -5px 20px rgba(0,0,0,0.2);
+z-index:9999;
+}
+
+#historyPanel{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:70%;
+background:white;
+color:black;
+overflow-y:auto;
+padding:20px;
+display:none;
+box-shadow:0 -5px 20px rgba(0,0,0,0.2);
+z-index:9999;
+}
+
+#closeHistory{
+margin-top:20px;
+padding:10px 16px;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+overflow:hidden;
+height:100vh;
+}
+
+/* slideshow background */
+
+.bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+transition:opacity 2s ease-in-out;
+z-index:-2;
+}
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.35);
+z-index:-1;
+}
+
+/* card */
+
+.card{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(255,255,255,0.9);
+padding:40px;
+border-radius:20px;
+text-align:center;
+max-width:800px;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
+}
+
+h1{
+margin-bottom:10px;
+}
+
+.day{
+font-size:14px;
+color:#555;
+margin-bottom:20px;
+}
+
+#reason{
+font-size:20px;
+margin-top:10px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#ff5e8a;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+/* hearts */
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:floatUp linear forwards;
+opacity:0.8;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0) scale(1);opacity:1;}
+100%{transform:translateY(-110vh) scale(1.5);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="lockscreen">
+  <div id="lockContent">
+    <h1>For The Love of my Life</h1>
+    <p>Tap to enter ❤️</p>
+  </div>
+</div>
+
+<button id="historyButton">❤️ Past Days</button>
+
+<div id="historyPanel">
+<h2>Reasons You've Seen</h2>
+
+<div id="historyList"></div>
+
+<button id="closeHistory">Close</button>
+</div>
+
+<div class="bg" id="bg"></div>
+<div class="overlay"></div>
+
+<div class="card">
+
+<h1>For Annushka ❤️</h1>
+
+<div class="day" id="day"></div>
+
+<button id="revealBtn">Tap to reveal today's reason</button>
+
+<div id="reason" style="display:none;"></div>
+
+</div>
+
+<script>
+
+/* PHOTO SLIDESHOW */
+
+const photos = [
+"1.jpeg",
+"2.jpeg",
+"3.jpeg",
+"4.jpeg",
+"5.jpeg",
+"6.jpeg",
+"7.jpeg",
+"8.jpeg",
+"9.jpeg",
+"10.jpeg"
+];
+
+let photoIndex = 0;
+const bg = document.getElementById("bg");
+
+function changePhoto(){
+
+bg.style.opacity = 0;
+
+setTimeout(()=>{
+photoIndex = (photoIndex + 1) % photos.length;
+bg.style.backgroundImage = "url('" + photos[photoIndex] + "')";
+bg.style.opacity = 1;
+},1000);
+
+}
+
+bg.style.backgroundImage = "url('" + photos[0] + "')";
+
+setInterval(changePhoto,6000);
+
+
+/* REASONS */
+
+const reasons = [
+"I love you Annushka because when I say your name, it already feels like home.",
+"I love you Annushka because the way you say “baby” somehow fixes my worst days.",
+"I love you Annushka because your smile makes my brain forget whatever nonsense it was worrying about.",
+"I love you Annushka because you make me feel wanted without ever trying too hard.",
+"I love you Annushka because you somehow understand my moods even when I don’t explain them.",
+"I love you Annushka because you listen to the things I say and also the things I don’t say.",
+"I love you Annushka because when you laugh, it sounds like the world is a little lighter.",
+"I love you Annushka because you trust me with your vulnerable side.",
+"I love you Annushka because you let me be vulnerable too.",
+"I love you Annushka because loving you doesn’t feel like effort, it feels like breathing.",
+"I love you Annushka because you can make even the most ordinary day feel special.",
+"I love you Annushka because when I imagine the future, you’re automatically there.",
+"I love you Annushka because your kindness isn’t performative, it’s just who you are.",
+"I love you Annushka because you care about people even when they don’t deserve it.",
+"I love you Annushka because your heart is bigger than you realise.",
+"I love you Annushka because you make me want to become a better version of myself.",
+"I love you Annushka because you challenge me without trying to control me.",
+"I love you Annushka because your presence alone calms something restless inside me.",
+"I love you Annushka because you make love feel safe.",
+"I love you Annushka because you make me feel like I matter.",
+"I love you Annushka because you look beautiful even when you think you don’t.",
+"I love you Annushka because you send me pictures and suddenly my entire mood changes.",
+"I love you Annushka because your voice is one of my favourite sounds in the world.",
+"I love you Annushka because your messages can turn a boring moment into something warm.",
+"I love you Annushka because you get excited about little things.",
+"I love you Annushka because you share your thoughts with me.",
+"I love you Annushka because you trust me with your feelings.","I love you Annushka because you let me into your world.",
+"I love you Annushka because you never make me feel like loving you is a mistake.",
+"I love you Annushka because somehow you make love feel simple.",
+"I love you Annushka because you care about what I like.",
+"I love you Annushka because you think about me when making decisions.",
+"I love you Annushka because you make space for me in your life.",
+"I love you Annushka because you don’t try to change who I am.",
+"I love you Annushka because you see the good in me even when I struggle to see it myself.",
+"I love you Annushka because you make me feel like I’m enough.",
+"I love you Annushka because you look at me in a way that makes me feel understood.",
+"I love you Annushka because you don’t judge my weird thoughts.",
+"I love you Annushka because you let me be my chaotic self.",
+"I love you Annushka because you accept the messy parts of me too.",
+"I love you Annushka because you make my heart feel peaceful.",
+"I love you Annushka because your affection never feels fake.",
+"I love you Annushka because you show up emotionally.",
+"I love you Annushka because you make love feel alive.",
+"I love you Annushka because you make even silence feel comfortable.",
+"I love you Annushka because you give meaning to moments that would otherwise pass unnoticed.",
+"I love you Annushka because you care about my happiness.",
+"I love you Annushka because you remind me that love can be gentle.",
+"I love you Annushka because you make the future feel less scary.",
+"I love you Annushka because you make life feel more real.",
+"I love you Annushka because you’re not just someone I love, you’re someone I admire.",
+"I love you Annushka because your softness is actually a form of strength.",
+"I love you Annushka because your presence makes the world feel less lonely.",
+"I love you Annushka because you believe in me.",
+"I love you Annushka because you see potential in me that I sometimes ignore.",
+"I love you Annushka because you make love feel like a partnership, not a performance.",
+"I love you Annushka because loving you feels natural.",
+"I love you Annushka because you make my heart feel full.",
+"I love you Annushka because you are you.",
+"I love you Annushka because out of everyone in this world, somehow I get to call you mine.",
+"I love you Annushka because sometimes you say the sweetest things without even realising how much they affect me.",
+"I love you Annushka because when you get shy, it’s honestly the cutest thing ever.",
+"I love you Annushka because you somehow manage to be adorable and dangerous to my heart at the same time.",
+"I love you Annushka because you make me smile at my phone like an idiot.",
+"I love you Annushka because you make my bad days less heavy.",
+"I love you Annushka because you make my good days even better.",
+"I love you Annushka because you remember small things about me.",
+"I love you Annushka because your attention feels genuine.",
+"I love you Annushka because you make effort without making it look like effort.",
+"I love you Annushka because loving you feels like the most natural thing in the world.",
+"I love you Annushka because when you say you miss me, I actually feel it.",
+"I love you Annushka because you don’t play games with my feelings.",
+"I love you Annushka because you make honesty feel safe.",
+"I love you Annushka because you care about how I feel.",
+"I love you Annushka because you’re soft with me when I need softness.",
+"I love you Annushka because you challenge me when I need honesty.",
+"I love you Annushka because you’re not afraid to be emotional.",
+"I love you Annushka because your emotions are real and raw.",
+"I love you Annushka because you trust me with your heart.",
+"I love you Annushka because that trust means everything to me.",
+"I love you Annushka because you can turn a normal conversation into something meaningful.",
+"I love you Annushka because talking to you never feels like a chore.",
+"I love you Annushka because you make time disappear when we talk.",
+"I love you Annushka because you understand my humour.",
+"I love you Annushka because you laugh at my dumb jokes.",
+"I love you Annushka because you send me things that remind you of me.",
+"I love you Annushka because you randomly appear in my thoughts throughout the day.",
+"I love you Annushka because my brain automatically wants to share things with you.",
+"I love you Annushka because you somehow became part of my everyday life.",
+"I love you Annushka because you make ordinary moments feel important.",
+"I love you Annushka because you make my heart feel calm.",
+"I love you Annushka because you also make it race sometimes.",
+"I love you Annushka because you’re beautiful in ways that go beyond looks.",
+"I love you Annushka because you care deeply about people.",
+"I love you Annushka because your kindness feels effortless.",
+"I love you Annushka because you make the world feel a little softer.",
+"I love you Annushka because you remind me that good people still exist.",
+"I love you Annushka because you make me want to protect your happiness.",
+"I love you Annushka because you deserve the kind of love that feels safe.",
+"I love you Annushka because I want to be someone who gives you that.",
+"I love you Annushka because you look amazing even when you think you don’t.",
+"I love you Annushka because sometimes I catch myself staring at your pictures longer than I should.",
+"I love you Annushka because your selfies have an unfair amount of power over my mood.",
+"I love you Annushka because you somehow manage to look beautiful and cute at the same time.",
+"I love you Annushka because your confidence is attractive.",
+"I love you Annushka because even your insecurities make me want to hold you closer.",
+"I love you Annushka because you’re real with me.",
+"I love you Annushka because you don’t pretend to be perfect.",
+"I love you Annushka because you show me your messy side too.",
+"I love you Annushka because that makes me trust you even more.",
+"I love you Annushka because you make love feel exciting again.",
+"I love you Annushka because you make the future feel like something worth looking forward to.",
+"I love you Annushka because thinking about you sometimes makes my chest feel warm.",
+"I love you Annushka because you make me feel lucky.",
+"I love you Annushka because you somehow make life feel less lonely.",
+"I love you Annushka because you remind me that connection like this is rare.",
+"I love you Annushka because you make my heart feel understood.",
+"I love you Annushka because loving you feels like the right kind of chaos.",
+"I love you Annushka because somehow, out of everyone in this world, our paths crossed.",
+"I love you Annushka because if I had to choose again, I would still choose you.",
+"I love you Annushka because loving you made me realize my heart was capable of more than I thought.",
+"I love you Annushka because when I think about losing you, it genuinely scares me a little.",
+"I love you Annushka because when I think about having you in my life for a long time, it makes me feel peaceful.",
+"I love you Annushka because you make the future feel less uncertain.",
+"I love you Annushka because somehow you became someone I can’t imagine my days without.",
+"I love you Annushka because your happiness matters to me more than you probably realise.",
+"I love you Annushka because when you’re upset, I actually feel it too.",
+"I love you Annushka because when you’re excited about something, I get excited with you.",
+"I love you Annushka because your emotions matter to me.",
+"I love you Annushka because your heart matters to me.",
+"I love you Annushka because you make me want to slow down and appreciate moments.",
+"I love you Annushka because you make life feel less like survival and more like living.",
+"I love you Annushka because with you I don’t feel like I have to pretend.",
+"I love you Annushka because you see parts of me that I usually hide.",
+"I love you Annushka because you never make me feel weak for showing those parts.",
+"I love you Annushka because you made vulnerability feel less scary.",
+"I love you Annushka because you made love feel like something safe instead of something risky.",
+"I love you Annushka because you showed me that care can be gentle.",
+"I love you Annushka because you made affection feel natural instead of awkward.",
+"I love you Annushka because you made my guarded heart open without forcing it.",
+"I love you Annushka because sometimes I catch myself thinking about you for no reason at all.",
+"I love you Annushka because sometimes I smile randomly because something reminded me of you.",
+"I love you Annushka because my brain has started storing memories with you in them.",
+"I love you Annushka because you’re becoming part of my story.",
+"I love you Annushka because you’re becoming part of my life.",
+"I love you Annushka because the way you see me makes me want to live up to it.",
+"I love you Annushka because you believe in me in a way that feels sincere.",
+"I love you Annushka because you see potential in me even on days I feel useless.",
+"I love you Annushka because your belief in me feels like quiet support.",
+"I love you Annushka because that support gives me strength.",
+"I love you Annushka because you make me feel chosen.",
+"I love you Annushka because you make me feel appreciated.",
+"I love you Annushka because you make me feel valued.",
+"I love you Annushka because you make me feel loved in ways I didn’t expect.",
+"I love you Annushka because you make me feel important in your life.",
+"I love you Annushka because you make my heart softer.",
+"I love you Annushka because you make me care more deeply.",
+"I love you Annushka because you make me less afraid of attachment.",
+"I love you Annushka because you make love feel worth the risk.",
+"I love you Annushka because you make me glad, I didn’t close myself off completely.",
+"I love you Annushka because when I talk to you, I feel heard.",
+"I love you Annushka because when you talk to me, I genuinely want to listen.",
+"I love you Annushka because we can talk about serious things and also stupid things.",
+"I love you Annushka because conversations with you feel effortless.",
+"I love you Annushka because silence with you wouldn’t feel uncomfortable either.",
+"I love you Annushka because sometimes you surprise me with how thoughtful you are.",
+"I love you Annushka because sometimes you say something so sincere it stays in my head for days.",
+"I love you Annushka because you make me feel emotionally safe.",
+"I love you Annushka because emotional safety is rarer than people realise.",
+"I love you Annushka because you give me that without making it complicated.",
+"I love you Annushka because you showed me what it feels like when someone actually chooses you.",
+"I love you Annushka because you show up emotionally.",
+"I love you Annushka because you care enough to try.",
+"I love you Annushka because you don’t treat love casually.",
+"I love you Annushka because you treat it like something meaningful.",
+"I love you Annushka because the idea of building a life with you doesn’t feel crazy.",
+"I love you Annushka because imagining growing older with you feels strangely comforting.",
+"I love you Annushka because you make long-term love feel possible.",
+"I love you Annushka because you make me want to hold on instead of letting go.",
+"I love you Annushka because loving you feels like one of the best decisions my heart ever made.",
+"I love you Annushka because you somehow manage to be cute even when you’re annoyed.",
+"I love you Annushka because your little reactions are honestly adorable.",
+"I love you Annushka because when you act dramatic it secretly entertains me.",
+"I love you Annushka because you pretend to be tough but I know you’re soft.",
+"I love you Annushka because that soft side of you is my favourite.",
+"I love you Annushka because you make my phone the most interesting thing in the room.",
+"I love you Annushka because your texts can instantly change my mood.",
+"I love you Annushka because when I see your name pop up, I automatically smile.",
+"I love you Annushka because you make waiting for replies exciting.",
+"I love you Annushka because you somehow live rent-free in my brain.",
+"I love you Annushka because you send selfies that completely destroy my concentration.",
+"I love you Annushka because you look beautiful in ways that feel unfair.",
+"I love you Annushka because you sometimes don’t realise how attractive you actually are.",
+"I love you Annushka because watching you doubt your beauty makes me want to remind you constantly.",
+"I love you Annushka because honestly… I could stare at you for hours.",
+"I love you Annushka because your laugh is contagious.",
+"I love you Annushka because sometimes I laugh just because you’re laughing.",
+"I love you Annushka because you make normal conversations fun.",
+"I love you Annushka because even our stupid conversations feel meaningful.",
+"I love you Annushka because we can talk about absolutely nothing and still enjoy it.",
+"I love you Annushka because you understand my sense of humour.",
+"I love you Annushka because you tolerate my dumb jokes.",
+"I love you Annushka because sometimes you even laugh at them.",
+"I love you Annushka because you can roast me without actually hurting me.",
+"I love you Annushka because teasing you is way too entertaining.",
+"I love you Annushka because you make flirting feel effortless.",
+"I love you Annushka because sometimes you say something that completely flusters me.",
+"I love you Annushka because you can make me smile like an idiot.",
+"I love you Annushka because you know exactly how to get under my skin in the best way.",
+"I love you Annushka because you somehow make my heart race and calm down at the same time.",
+"I love you Annushka because you get excited about random little things.",
+"I love you Annushka because you share your excitement with me.",
+"I love you Annushka because you tell me about your day.",
+"I love you Annushka because you include me in your little stories.",
+"I love you Annushka because those little stories make me feel closer to you.",
+"I love you Annushka because sometimes you randomly cross my mind and ruin my focus.",
+"I love you Annushka because you’re the reason I check my phone more than I should.",
+"I love you Annushka because you’ve somehow become part of my daily routine.",
+"I love you Annushka because life feels a bit boring on days we talk less.",
+"I love you Annushka because talking to you has become one of my favourite parts of the day.",
+"I love you Annushka because you make affection feel natural.",
+"I love you Annushka because you don’t make love feel awkward.",
+"I love you Annushka because you make compliments feel real.",
+"I love you Annushka because you say things that stay in my head for days.",
+"I love you Annushka because sometimes you accidentally make my heart melt.",
+"I love you Annushka because you can be sweet one moment and mischievous the next.",
+"I love you Annushka because your personality has layers, I keep discovering.",
+"I love you Annushka because every time I think I understand you, you surprise me again.",
+"I love you Annushka because you keep things interesting without even trying.",
+"I love you Annushka because loving you never feels boring.",
+"I love you Annushka because you make my world a little brighter.",
+"I love you Annushka because you make ordinary moments memorable.",
+"I love you Annushka because you make random memories with me.",
+"I love you Annushka because those memories will probably stay with me for years.",
+"I love you Annushka because you’re becoming part of my favourite memories.",
+"I love you Annushka because you make affection feel fun instead of serious all the time.",
+"I love you Annushka because you make love feel light sometimes.",
+"I love you Annushka because you remind me that relationships can be joyful.",
+"I love you Annushka because being around you feels easy.",
+"I love you Annushka because honestly… life is just better with you in it.",
+"I love you Annushka because when I think of peace, your face somehow appears in my mind.",
+"I love you Annushka because loving you feels like finding warmth on a cold day.",
+"I love you Annushka because your presence quiets storms inside me I don’t always talk about.",
+"I love you Annushka because you make my heart feel less restless.",
+"I love you Annushka because somehow you make the world feel gentler.",
+"I love you Annushka because the way you care about people says a lot about your heart.",
+"I love you Annushka because kindness comes naturally to you.",
+"I love you Annushka because you give love without calculating it.",
+"I love you Annushka because your empathy makes you beautiful in ways words struggle to describe.",
+"I love you Annushka because your heart is one of the purest things I’ve seen.",
+"I love you Annushka because when I look at you, I don’t just see someone I like — I see someone I deeply admire.",
+"I love you Annushka because you inspire me to become a better person.",
+"I love you Annushka because you make me question the lazy parts of myself.",
+"I love you Annushka because you push me toward growth without even trying.",
+"I love you Annushka because your presence alone motivates me.",
+"I love you Annushka because you make love feel meaningful, not just emotional.",
+"I love you Annushka because with you, affection feels honest.",
+"I love you Annushka because with you, closeness feels real.",
+"I love you Annushka because with you, connection feels deep.",
+"I love you Annushka because with you, love feels alive.",
+"I love you Annushka because sometimes when you speak, I realise how thoughtful you actually are.",
+"I love you Annushka because you say things that stay in my mind long after the conversation ends.",
+"I love you Annushka because your words sometimes carry more depth than you realise.",
+"I love you Annushka because your perspective fascinates me.",
+"I love you Annushka because understanding you feels like discovering something precious.",
+"I love you Annushka because you don’t just exist in my present — you appear in my dreams about the future.",
+"I love you Annushka because imagining tomorrow somehow includes you automatically now.",
+"I love you Annushka because thinking about building a life with you feels comforting.",
+"I love you Annushka because the idea of sharing years with you feels right.",
+"I love you Annushka because growing older doesn’t seem so scary if you’re there.",
+"I love you Annushka because you make the idea of commitment feel beautiful instead of heavy.",
+"I love you Annushka because loving you feels like an honour, not a burden.",
+"I love you Annushka because your heart is something I want to protect.",
+"I love you Annushka because your happiness matters deeply to me.",
+"I love you Annushka because your tears would matter just as much.",
+"I love you Annushka because when you trust me, it feels like a gift.",
+"I love you Annushka because your vulnerability feels sacred to me.",
+"I love you Annushka because you let me see parts of you that others might not.",
+"I love you Annushka because those parts make you even more beautiful.",
+"I love you Annushka because you let me hold pieces of your heart.",
+"I love you Annushka because when you believe in me, it strengthens me.",
+"I love you Annushka because your encouragement feels sincere.",
+"I love you Annushka because your support feels quiet but powerful.",
+"I love you Annushka because your faith in me makes me want to deserve it.",
+"I love you Annushka because you make me want to become someone worthy of you.",
+"I love you Annushka because loving you feels like a privilege.",
+"I love you Annushka because being loved by you feels even more special.",
+"I love you Annushka because your affection feels genuine.",
+"I love you Annushka because your care feels intentional.",
+"I love you Annushka because your love feels real.",
+"I love you Annushka because when I look at you, I don’t just see the present — I see possibilities.",
+"I love you Annushka because I see adventures we could have together.",
+"I love you Annushka because I see memories we haven’t created yet.",
+"I love you Annushka because I see stories we could write together.",
+"I love you Annushka because I see a life that could be beautiful.",
+"I love you Annushka because somehow your existence changed the direction of my heart.",
+"I love you Annushka because meeting you wasn’t just coincidence — it feels meaningful.",
+"I love you Annushka because loving you has changed me in the best ways.",
+"I love you Annushka because you’ve given my heart something worth protecting.",
+"I love you Annushka because out of all the people in this world, somehow my heart chose you.",
+"I love you Annushka because loving you feels like one of the most meaningful things I’ve ever experienced.",
+"I love you Annushka because meeting you changed the emotional direction of my life.",
+"I love you Annushka because before you, I didn’t realise how much love could matter.",
+"I love you Annushka because after you, I can’t imagine going back to a life without it.",
+"I love you Annushka because you gave my heart something real to hold onto.",
+"I love you Annushka because you taught me that love isn’t just about excitement.",
+"I love you Annushka because you showed me that love is also patience.",
+"I love you Annushka because love is care.",
+"I love you Annushka because love is showing up.",
+"I love you Annushka because love is choosing each other again and again.",
+"I love you Annushka because your presence made my world feel less empty.",
+"I love you Annushka because you filled quiet spaces in my life I didn’t even notice before.",
+"I love you Annushka because you added colour to moments that used to feel grey.",
+"I love you Annushka because you made ordinary days feel meaningful.",
+"I love you Annushka because you reminded me that life can be beautiful.",
+"I love you Annushka because you showed me what emotional safety feels like.",
+"I love you Annushka because you made vulnerability feel less dangerous.",
+"I love you Annushka because you made honesty feel welcome.",
+"I love you Annushka because you made affection feel natural.",
+"I love you Annushka because you made love feel possible.",
+"I love you Annushka because you didn’t just enter my life — you became part of it.",
+"I love you Annushka because your voice became one of my favorite sounds.",
+"I love you Annushka because your smile became one of my favorite sights.",
+"I love you Annushka because your happiness became something I care deeply about.",
+"I love you Annushka because your heart became something precious to me.",
+"I love you Annushka because when I imagine the future now, you’re in it.",
+"I love you Annushka because I picture adventures with you.",
+"I love you Annushka because I picture quiet moments with you.",
+"I love you Annushka because I picture memories we haven’t even lived yet.",
+"I love you Annushka because I picture growing through life beside you.",
+"I love you Annushka because loving you makes me want to be a better man.",
+"I love you Annushka because you inspire me to grow.",
+"I love you Annushka because you make me reflect on myself.",
+"I love you Annushka because you make me care more deeply about the kind of person I am.",
+"I love you Annushka because you bring out a stronger version of me.",
+"I love you Annushka because your heart deserves someone who loves it sincerely.",
+"I love you Annushka because I want to protect your happiness.",
+"I love you Annushka because I want to support your dreams.",
+"I love you Annushka because I want to stand beside you when life gets difficult.",
+"I love you Annushka because I want to celebrate your victories too.",
+"I love you Annushka because loving you feels like purpose sometimes.",
+"I love you Annushka because your presence gives meaning to ordinary moments.",
+"I love you Annushka because your affection makes life feel warmer.",
+"I love you Annushka because your care reminds me that connection like this is rare.",
+"I love you Annushka because being loved by you feels like a gift.",
+"I love you Annushka because even after 345 reasons, my heart still isn’t done loving you.",
+"I love you Annushka because there will always be more things about you to admire.",
+"I love you Annushka because there will always be new memories with you to cherish.",
+"I love you Annushka because there will always be new reasons to fall for you again.",
+"I love you Annushka because love like this doesn’t stay static — it grows.",
+"I love you Annushka because every day with you adds another reason to the list.",
+"I love you Annushka because every conversation deepens our story.",
+"I love you Annushka because every moment together becomes part of our history.",
+"I love you Annushka because every shared laugh becomes a memory.",
+"I love you Annushka because every shared challenge makes us stronger.",
+"I love you Annushka because loving you feels like a journey worth taking.",
+"I love you Annushka because choosing you feels right to my heart.",
+"I love you Annushka because having you in my life feels like a blessing.",
+"I love you Annushka because your love is something I’ll never take lightly.",
+"I love you Annushka because your presence changed me for the better.",
+"I love you Annushka because even if I tried, I could never fully explain what you mean to me.",
+"I love you Annushka because words will always fall a little short.",
+"I love you Annushka because feelings this deep are hard to capture perfectly.",
+"I love you Annushka because loving you goes beyond explanations.",
+"I love you Annushka because out of all the people in this world, my heart somehow found you — and decided that you are worth loving every single day."
+];
+
+
+/* DATE CALCULATION */
+
+const startDate = new Date("2026-03-09");
+const today = new Date();
+
+const diffTime = today - startDate;
+const diffDays = Math.floor(diffTime / (1000*60*60*24));
+let dayNumber = diffDays % reasons.length;
+if(dayNumber < 0) dayNumber = 0;
+if(dayNumber > 364){
+dayNumber = 364;
+}
+
+
+document.getElementById("day").innerText = "Day " + (dayNumber+1) + " of 365";
+
+
+/* REVEAL BUTTON */
+
+const button = document.getElementById("revealBtn");
+const reasonBox = document.getElementById("reason");
+
+button.onclick = function(){
+    reasonBox.style.display = "block";
+saveReason(dayNumber, reasons[dayNumber]);
+/* DAY 1 BIRTHDAY LETTER */
+
+if(dayNumber === 0){
+
+reasonBox.innerHTML = `
+<h2>Happy Birthday Annushka ❤️</h2>
+
+<p>
+Before you read today's reason, I want to tell you something. Inside this little app are 365 reasons why I love you. One for every day of the year. You’ll only get one each day, because if I gave you all of them at once, it wouldn’t last as long as I want it to.<br><br>
+
+So for the next 365 days, there will always be a new reminder waiting here. A small note from me, telling you one more thing I love about you.<br><br>
+
+But today isn't just Day 1.
+
+Today is your birthday.<br><br>
+
+And I hope this year gives you countless reasons to smile, moments that make you feel peaceful, and happiness that finds you even on ordinary days.
+
+You deserve good things, Annushka.<br><br>
+
+Happy Birthday ❤️<br>
+
+And here is your first reason.
+</p>
+
+<hr>
+
+<p><b>Reason #1</b><br>
+I love you Annushka because the day you were born is the day the world secretly got better.
+</p>
+`;
+
+button.style.display="none";
+
+
+/* DAY 365 SECRET LETTER */
+
+}else if(dayNumber === 364){
+
+reasonBox.innerHTML = `
+<h2>Hiiiiiiiiiiiiiiiiii Babbbbbbbbbyyyyyyyyy</h2>
+
+<p>
+If you're reading this, it means you've reached day 365.
+
+But the truth is… I never ran out of reasons to love you.<br><br>
+
+These 365 were only the beginning.
+
+Every day with you adds another reason, another memory, another moment where I realise how lucky I am that our paths crossed.
+
+<br><br>And if I could start this whole year again…
+
+I would still choose you.
+
+Every single time.<br><br>
+
+I love you Annushka, more than you'll ever know.
+</p>
+`;
+
+button.style.display="none";
+
+
+/* NORMAL DAYS */
+
+}else{
+
+reasonBox.innerText = reasons[dayNumber % reasons.length];
+saveReason(dayNumber, reasons[dayNumber % reasons.length]);
+button.style.display="none";
+
+}
+
+};
+
+
+/* HEART ANIMATION */
+const heartTypes = ["❤️","💖","💗","💘","💞","💕"];
+
+function createHeart() {
+
+const heart = document.createElement("div");
+
+heart.classList.add("heart");
+
+heart.innerText = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+
+heart.style.left = Math.random() * 100 + "vw";
+
+heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+
+document.body.appendChild(heart);
+
+setTimeout(() => {
+heart.remove();
+}, 8000);
+
+}
+
+setInterval(createHeart,100);
+
+function saveReason(day, text){
+
+let history = JSON.parse(localStorage.getItem("loveHistory")) || [];
+
+/* check if this day already exists */
+
+let alreadySaved = history.find(item => item.day === day + 1);
+
+if(!alreadySaved){
+
+history.push({
+day: day + 1,
+reason: text
+});
+
+localStorage.setItem("loveHistory", JSON.stringify(history));
+
+}
+
+}
+
+const historyButton = document.getElementById("historyButton");
+const historyPanel = document.getElementById("historyPanel");
+const historyList = document.getElementById("historyList");
+const closeHistory = document.getElementById("closeHistory");
+
+historyButton.onclick = function(){
+
+historyPanel.style.display = "block";
+
+let history = JSON.parse(localStorage.getItem("loveHistory")) || [];
+console.log(history);
+
+historyList.innerHTML = "";
+
+history.forEach(item => {
+
+let div = document.createElement("div");
+
+div.innerHTML = "<b>Day " + item.day + "</b><br>" + item.reason + "<hr>";
+
+historyList.appendChild(div);
+
+});
+
+};
+
+closeHistory.onclick = function(){
+historyPanel.style.display = "none";
+};
+
+const lockscreen = document.getElementById("lockscreen");
+
+lockscreen.onclick = function(){
+
+lockscreen.classList.add("fadeOut");
+
+setTimeout(()=>{
+lockscreen.style.display = "none";
+},800);
+
+};
+
+</script>
+
+</body>
+</html>

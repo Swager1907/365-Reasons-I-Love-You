@@ -1,0 +1,20 @@
+{
+  "name": "365 Reasons I Love Annushka",
+  "short_name": "For Annushka",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fff0f3",
+  "theme_color": "#ff4d6d",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
