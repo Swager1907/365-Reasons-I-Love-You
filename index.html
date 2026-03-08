@@ -648,44 +648,8 @@ const reasonBox = document.getElementById("reason");
 button.onclick = function(){
     reasonBox.style.display = "block";
 saveReason(dayNumber, reasons[dayNumber]);
-/* DAY 1 BIRTHDAY LETTER */
 
-if(dayNumber === 0){
-
-reasonBox.innerHTML = `
-<h2>Happy Birthday Annushka ❤️</h2>
-
-<p>
-Before you read today's reason, I want to tell you something. Inside this little app are 365 reasons why I love you. One for every day of the year. You’ll only get one each day, because if I gave you all of them at once, it wouldn’t last as long as I want it to.<br><br>
-
-So for the next 365 days, there will always be a new reminder waiting here. A small note from me, telling you one more thing I love about you.<br><br>
-
-But today isn't just Day 1.
-
-Today is your birthday.<br><br>
-
-And I hope this year gives you countless reasons to smile, moments that make you feel peaceful, and happiness that finds you even on ordinary days.
-
-You deserve good things, Annushka.<br><br>
-
-Happy Birthday ❤️<br>
-
-And here is your first reason.
-</p>
-
-<hr>
-
-<p><b>Reason #1</b><br>
-I love you Annushka because the day you were born is the day the world secretly got better.
-</p>
-`;
-
-button.style.display="none";
-
-
-/* DAY 365 SECRET LETTER */
-
-}else if(dayNumber === 364){
+if(dayNumber === 364){
 
 reasonBox.innerHTML = `
 <h2>Hiiiiiiiiiiiiiiiiii Babbbbbbbbbyyyyyyyyy</h2>
@@ -818,3 +782,4 @@ lockscreen.style.display = "none";
 </body>
 
 </html>
+
